@@ -1,0 +1,19 @@
+*.user
+*.suo
+*.cache
+*.log
+*.pdb
+*.obj
+*.dll
+*.exe
+/bin/
+/obj/
+*.nupkg
+*.snupkg
+# Logs
+*.log
+*.tlog
+*.userosscache
+*.vs/
+**/bin/
+**/obj/
