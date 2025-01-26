@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConversorAPI", "ConversorAPI\ConversorAPI.csproj", "{FD79944F-A922-42E2-8992-41B6C292CC12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{442C31AC-167A-4530-AB89-2CBFCCB6E240}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{EE1C0054-891B-48FC-AA50-C1F02DD98FD3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{FD79944F-A922-42E2-8992-41B6C292CC12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD79944F-A922-42E2-8992-41B6C292CC12}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD79944F-A922-42E2-8992-41B6C292CC12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{442C31AC-167A-4530-AB89-2CBFCCB6E240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{442C31AC-167A-4530-AB89-2CBFCCB6E240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{442C31AC-167A-4530-AB89-2CBFCCB6E240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{442C31AC-167A-4530-AB89-2CBFCCB6E240}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE1C0054-891B-48FC-AA50-C1F02DD98FD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE1C0054-891B-48FC-AA50-C1F02DD98FD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE1C0054-891B-48FC-AA50-C1F02DD98FD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE1C0054-891B-48FC-AA50-C1F02DD98FD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
