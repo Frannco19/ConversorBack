@@ -80,19 +80,17 @@ namespace ConversorAPI.Controllers
         {
             // Extraer el token del encabezado
             var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-            if (string.IsNullOrEmpty(token))
-                return BadRequest("Token no proporcionado.");
 
-            // Obtener el UserId del token
+            // Obtener el userIdSUB y username
             var userId = _userService.GetUserIdFromToken(token);
-            if (userId == 0)
-                return BadRequest("No se pudo extraer información del token.");
 
             var user = _userService.GetById(userId);
-            if (user == null)
-                return NotFound("Usuario no encontrado.");
 
-            // Crear y retornar los detalles del usuario
+            if (userId == 0 & user == null)
+            {
+                return BadRequest("No se pudo extraer informacion del token");
+            }
+            // Retornar los detalles del usuario
             var userDetailsDto = new UserSubsDetails
             {
                 Username = user.Username,

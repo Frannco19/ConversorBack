@@ -33,6 +33,6 @@ namespace Data.Entities
         public Role Role { get; set; }
 
         [ForeignKey("SubscriptionId")]
-        public virtual Subscription Subscription { get; set; }
+        public Subscription? Subscription { get; set; }
     }
 }

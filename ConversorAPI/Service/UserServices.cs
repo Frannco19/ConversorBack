@@ -24,10 +24,6 @@ namespace Service
         // Crear un nuevo usuario
         public User CreateUser(UserRegistrationDTO registrationDto)
         {
-            // Verificar si el nombre de usuario ya existe
-            if (_userRepository.DoesUsernameExist(registrationDto.Username))
-                throw new InvalidOperationException("El nombre de usuario ya está en uso.");
-
             // Crear el usuario
             var user = new User
             {
