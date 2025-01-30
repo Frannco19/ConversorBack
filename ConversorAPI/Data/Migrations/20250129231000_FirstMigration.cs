@@ -7,11 +7,27 @@
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class NuevaMigration : Migration
+    public partial class FirstMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "CurrenciesConvert",
+                columns: table => new
+                {
+                    CurrencyId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CurrencyCode = table.Column<string>(type: "TEXT", nullable: false),
+                    CurrencyLegend = table.Column<string>(type: "TEXT", nullable: false),
+                    CurrencySymbol = table.Column<string>(type: "TEXT", maxLength: 4, nullable: true),
+                    ConversionRate = table.Column<decimal>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CurrenciesConvert", x => x.CurrencyId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Subscriptions",
                 columns: table => new
@@ -19,7 +35,7 @@ namespace Data.Migrations
                     SubscriptionId = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     SubscriptionName = table.Column<string>(type: "TEXT", nullable: false),
-                    ConversionLimit = table.Column<decimal>(type: "TEXT", nullable: false)
+                    ConversionLimit = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -35,10 +51,10 @@ namespace Data.Migrations
                     Username = table.Column<string>(type: "TEXT", nullable: false),
                     Password = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    SubCount = table.Column<int>(type: "INTEGER", nullable: false),
                     ConversionsMaked = table.Column<int>(type: "INTEGER", nullable: false),
                     SubscriptionId = table.Column<int>(type: "INTEGER", nullable: false),
-                    Role = table.Column<int>(type: "INTEGER", nullable: false)
+                    IsAdmin = table.Column<bool>(type: "INTEGER", nullable: false),
+                    conversionEnabled = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,54 +67,15 @@ namespace Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "CurrenciesConvert",
-                columns: table => new
-                {
-                    CurrencyId = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    CurrencyCode = table.Column<string>(type: "TEXT", nullable: false),
-                    CurrencyLegend = table.Column<string>(type: "TEXT", nullable: false),
-                    CurrencySymbol = table.Column<string>(type: "TEXT", maxLength: 4, nullable: true),
-                    ConversionRate = table.Column<decimal>(type: "TEXT", nullable: false),
-                    UserId = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CurrenciesConvert", x => x.CurrencyId);
-                    table.ForeignKey(
-                        name: "FK_CurrenciesConvert_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.InsertData(
-                table: "CurrenciesConvert",
-                columns: new[] { "CurrencyId", "ConversionRate", "CurrencyCode", "CurrencyLegend", "CurrencySymbol", "UserId" },
-                values: new object[,]
-                {
-                    { 1, 0.002m, "ARS", "Peso Argentino", "$", null },
-                    { 2, 1.09m, "EUR", "Euro", "€", null },
-                    { 3, 0.043m, "KC", "Corona Checa", "Kč", null },
-                    { 4, 1.0m, "USD", "Dólar Americano", "$", null }
-                });
-
             migrationBuilder.InsertData(
                 table: "Subscriptions",
                 columns: new[] { "SubscriptionId", "ConversionLimit", "SubscriptionName" },
                 values: new object[,]
                 {
-                    { 1, 10m, "Free" },
-                    { 2, 100m, "Trial" },
-                    { 3, 0m, "Pro" }
+                    { 1, 5, "Free" },
+                    { 2, 100, "Trial" },
+                    { 3, 2147483647, "Pro" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CurrenciesConvert_UserId",
-                table: "CurrenciesConvert",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Users_SubscriptionId",

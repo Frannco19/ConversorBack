@@ -18,8 +18,16 @@ namespace Service.Interfaces
         User IncrementConversionsUsed(int userId);
 
         int GetUserIdFromToken(string token);
+        User UpdateUserAdmin(UpdateAdminDTO user, int adminUserId);
+
         User UpdateUser(User user);
 
         bool CanConvert(int userId);
+
+        bool IsAdmin(int userId);
+
+        User CreateAdminUser(AdminUserDTO adminUserDTO);
+
+        void DeactivateUser(int userId, int adminUserId);
     }
 }

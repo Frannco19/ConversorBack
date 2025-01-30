@@ -20,6 +20,35 @@ namespace Service
         {
             _userRepository = userRepository;
         }
+        public bool IsAdmin(int userId)
+        {
+
+            var user = _userRepository.GetById(userId);
+            if (user == null) throw new ArgumentException("Usuario no encontrado.");
+            return user.IsAdmin;
+        }
+
+        public User CreateAdminUser(AdminUserDTO adminUserDTO)
+        {
+
+
+            // Crear la entidad de usuario administrador
+            var adminUser = new User
+            {
+                Username = adminUserDTO.Username,
+                Password = adminUserDTO.Password,
+                Email = adminUserDTO.Email,
+                conversionEnabled = true,
+                ConversionsMaked = 0,
+                IsAdmin = true,
+                SubscriptionId = 3
+            };
+
+            // Guardar en la base de datos
+            _userRepository.AddUser(adminUser);
+
+            return adminUser;
+        }
 
         // Crear un nuevo usuario
         public User CreateUser(UserRegistrationDTO registrationDto)
@@ -31,9 +60,8 @@ namespace Service
                 Password = registrationDto.Password, // Idealmente, encriptar la contraseña aquí
                 Email = registrationDto.Email,
                 SubscriptionId = registrationDto.SubscriptionId,
-                SubCount = 0, // Inicializa el contador de conversiones
-                ConversionsMaked = 0, // Inicializa las conversiones realizadas
-                Role = Role.User // Rol predeterminado
+                conversionEnabled = true,
+                ConversionsMaked = 0 // Inicializa las conversiones realizadas
             };
 
             _userRepository.AddUser(user);
@@ -70,10 +98,10 @@ namespace Service
             // Incrementar conversiones realizadas
             user.ConversionsMaked++;
 
-            // Verificar si se alcanzó el límite de conversiones
-            if (user.ConversionsMaked >= user.Subscription.ConversionLimit && user.Subscription.ConversionLimit != 0)
+            // Desactivar usuario si excede el límite
+            if (user.ConversionsMaked >= user.Subscription.ConversionLimit)
             {
-                user.SubCount = (int)user.Subscription.ConversionLimit; // Establece el límite alcanzado
+                user.conversionEnabled = false;
             }
 
             // Actualizar en el repositorio
@@ -101,35 +129,54 @@ namespace Service
         // Actualizar un usuario existente
         public User UpdateUser(User user)
         {
-            var existingUser = _userRepository.GetById(user.UserId);
-            if (existingUser == null)
-                throw new KeyNotFoundException($"El usuario con ID {user.UserId} no existe.");
-
-            // Actualizar solo los campos relevantes
-            existingUser.Username = user.Username ?? existingUser.Username;
-            existingUser.Email = user.Email ?? existingUser.Email;
-            existingUser.Password = user.Password ?? existingUser.Password;
-
-            return _userRepository.Update(existingUser);
+            return _userRepository.Update(user);
         }
+
+        public User UpdateUserAdmin(UpdateAdminDTO user, int adminUserId)
+        {
+            if (!IsAdmin(adminUserId))
+            {
+                throw new UnauthorizedAccessException("No tienes permisos para actualizar usuarios.");
+            }
+            var existingUser = _userRepository.GetById(user.Id);
+            if (existingUser == null)
+            {
+                throw new ArgumentException("Usuario no encontrado.");
+            }
+            _userRepository.Update(existingUser);
+            return existingUser;
+        }
+
 
         // Verificar si el usuario puede realizar más conversiones
         public bool CanConvert(int userId)
         {
             var user = _userRepository.GetById(userId);
-            if (user == null)
-                throw new KeyNotFoundException($"El usuario con ID {userId} no existe.");
-
-            var subscription = user.Subscription;
-
-            // Verifica si tiene suscripción válida y puede convertir
-            if (subscription != null && subscription.ConversionLimit == 0) // Suscripción Pro (sin límite)
-                return true;
-
-            if (subscription != null && user.ConversionsMaked < subscription.ConversionLimit)
-                return true;
-
+            if (user.Subscription != null && user.conversionEnabled)
+            {
+                if (user.ConversionsMaked >= user.Subscription.ConversionLimit)
+                {
+                    user.conversionEnabled = false; // Desactivar excedió el límite
+                    _userRepository.Update(user); // Actualizar el estado en la base de datos
+                    return false;
+                }
+                return true; // Puede realizar conversiones
+            }
             return false; // Límite alcanzado o no tiene suscripción válida
+        }
+
+        public void DeactivateUser(int userId, int adminUserId)
+        {
+            if (!IsAdmin(adminUserId))
+            {
+                throw new UnauthorizedAccessException("No tienes permisos para desactivar usuarios.");
+            }
+
+            var user = _userRepository.GetById(userId);
+            if (user == null) throw new ArgumentException("Usuario no encontrado.");
+
+            user.conversionEnabled = false;
+            _userRepository.Update(user);
         }
     }
 

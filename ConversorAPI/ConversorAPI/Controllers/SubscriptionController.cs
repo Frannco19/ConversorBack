@@ -19,16 +19,11 @@ namespace ConversorAPI.Controllers
         [HttpPost("assign")]
         public IActionResult AssignSubscriptionToUser([FromBody] UserSubscriptionDTO userSubscriptionDto)
         {
-            if (userSubscriptionDto == null || userSubscriptionDto.UserId <= 0 || userSubscriptionDto.SubscriptionId <= 0)
-            {
-                return BadRequest("Datos inválidos. Asegúrese de proporcionar un UserId y SubscriptionId válidos.");
-            }
-
             var status = _subscriptionService.MakeSubscriptionToUser(userSubscriptionDto);
 
             if (status == null)
             {
-                return BadRequest("No se pudo asignar la suscripción. Verifique que el usuario y la suscripción existan.");
+                return BadRequest("No se pudo asignar la suscripción. Verifique los datos.");
             }
 
             return Ok(new

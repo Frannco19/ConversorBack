@@ -61,8 +61,7 @@ namespace Service
                 CurrencyCode = currencyDto.CurrencyCode,
                 CurrencyLegend = currencyDto.CurrencyLegend,
                 CurrencySymbol = currencyDto.CurrencySymbol,
-                ConversionRate = currencyDto.ConvertibilityCurrency,
-                UserId = 0 // Puede ser un valor predeterminado si no es relevante
+                ConversionRate = currencyDto.ConvertibilityCurrency
             };
 
             return _currencyRepository.AddCurrency(currency);

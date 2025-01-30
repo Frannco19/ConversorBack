@@ -1,4 +1,5 @@
-﻿using Data.Models.DTOs.CurrencyDTOs;
+﻿using Data.Entities;
+using Data.Models.DTOs.CurrencyDTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interfaces;
@@ -88,13 +89,22 @@ namespace ConversorAPI.Controllers
 
             // Extraer el token del encabezado
             var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+
             if (string.IsNullOrEmpty(token))
                 return Unauthorized("Token no proporcionado.");
 
             // Obtener el UserId del token
             var userId = _userServices.GetUserIdFromToken(token);
+
             if (userId == 0)
                 return NotFound("No se pudo extraer el UserId del token.");
+
+            // Obtener el usuario desde el servicio
+            var user = _userServices.GetById(userId);
+            if (user == null)
+            {
+                return NotFound("Usuario no encontrado.");
+            }
 
             // Verificar si el usuario puede realizar la conversión
             if (!_userServices.CanConvert(userId))
@@ -102,6 +112,7 @@ namespace ConversorAPI.Controllers
 
             // Realizar la conversión
             var conversionResult = _currencyService.ConvertCurrency(request);
+
             if (conversionResult == null)
             {
                 return BadRequest("No se pudo realizar la conversión. Verifica los códigos de moneda.");
@@ -110,8 +121,16 @@ namespace ConversorAPI.Controllers
             // Incrementar conversiones usadas
             _userServices.IncrementConversionsUsed(userId);
 
+            // Validar si el usuario ha superado el límite de conversiones
+            if (user.ConversionsMaked >= user.Subscription.ConversionLimit)
+            {
+                user.conversionEnabled = false;
+                _userServices.UpdateUser(user); // Actualizar el estado en la base de datos
+            }
+
             return Ok(conversionResult);
         }
+
     }
 
 }

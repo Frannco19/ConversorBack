@@ -24,15 +24,15 @@ namespace Data.Entities
         [EmailAddress]
         public string Email { get; set; }
 
-        public int SubCount { get; set; } // Cantidad de conversiones contador
-
         public int ConversionsMaked { get; set; }
 
         public int SubscriptionId { get; set; }
 
-        public Role Role { get; set; }
+        public Subscription Subscription { get; set; }
 
-        [ForeignKey("SubscriptionId")]
-        public Subscription? Subscription { get; set; }
+        public bool IsAdmin { get; set; }
+
+        public bool conversionEnabled { get; set; }
+
     }
 }

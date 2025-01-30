@@ -37,48 +37,9 @@ namespace Data.Migrations
                         .HasMaxLength(4)
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("CurrencyId");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("CurrenciesConvert");
-
-                    b.HasData(
-                        new
-                        {
-                            CurrencyId = 1,
-                            ConversionRate = 0.002m,
-                            CurrencyCode = "ARS",
-                            CurrencyLegend = "Peso Argentino",
-                            CurrencySymbol = "$"
-                        },
-                        new
-                        {
-                            CurrencyId = 2,
-                            ConversionRate = 1.09m,
-                            CurrencyCode = "EUR",
-                            CurrencyLegend = "Euro",
-                            CurrencySymbol = "€"
-                        },
-                        new
-                        {
-                            CurrencyId = 3,
-                            ConversionRate = 0.043m,
-                            CurrencyCode = "KC",
-                            CurrencyLegend = "Corona Checa",
-                            CurrencySymbol = "Kč"
-                        },
-                        new
-                        {
-                            CurrencyId = 4,
-                            ConversionRate = 1.0m,
-                            CurrencyCode = "USD",
-                            CurrencyLegend = "Dólar Americano",
-                            CurrencySymbol = "$"
-                        });
                 });
 
             modelBuilder.Entity("Data.Entities.Subscription", b =>
@@ -87,8 +48,8 @@ namespace Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("ConversionLimit")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ConversionLimit")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("SubscriptionName")
                         .IsRequired()
@@ -102,19 +63,19 @@ namespace Data.Migrations
                         new
                         {
                             SubscriptionId = 1,
-                            ConversionLimit = 10m,
+                            ConversionLimit = 5,
                             SubscriptionName = "Free"
                         },
                         new
                         {
                             SubscriptionId = 2,
-                            ConversionLimit = 100m,
+                            ConversionLimit = 100,
                             SubscriptionName = "Trial"
                         },
                         new
                         {
                             SubscriptionId = 3,
-                            ConversionLimit = 0m,
+                            ConversionLimit = 2147483647,
                             SubscriptionName = "Pro"
                         });
                 });
@@ -132,15 +93,12 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("IsAdmin")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("SubCount")
-                        .HasColumnType("INTEGER");
 
                     b.Property<int>("SubscriptionId")
                         .HasColumnType("INTEGER");
@@ -149,21 +107,14 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("conversionEnabled")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("UserId");
 
                     b.HasIndex("SubscriptionId");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("Data.Entities.Currency", b =>
-                {
-                    b.HasOne("Data.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Data.Entities.User", b =>

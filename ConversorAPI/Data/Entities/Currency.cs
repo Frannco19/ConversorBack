@@ -26,9 +26,5 @@ namespace Data.Entities
         [Required]
         public decimal ConversionRate { get; set; } // valor en relación al dólar
 
-        public int? UserId { get; set; }
-
-        [ForeignKey("UserId")]
-        public User? User { get; set; }
     }
 }

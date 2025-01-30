@@ -39,13 +39,13 @@ namespace Service
             return new UserSubStatusDTO
             {
                 UserId = updatedUser.UserId,
-                SubscriptionIsActive = conversionsUsed < updatedUser.Subscription.ConversionLimit || updatedUser.Subscription.ConversionLimit == 0,
+                SubscriptionIsActive = updatedUser.conversionEnabled,
                 SubscriptionName = updatedUser.Subscription.SubscriptionName,
-                MaxCountConvertions = (int)updatedUser.Subscription.ConversionLimit,
+                MaxCountConvertions = updatedUser.Subscription.ConversionLimit,
                 ConversionMaked = conversionsUsed,
-                ConversionsRemaining = updatedUser.Subscription.ConversionLimit == 0
+                ConversionsRemaining = updatedUser.Subscription.ConversionLimit == int.MinValue
                                        ? int.MaxValue // Suscripción Pro (sin límite)
-                                       : (int)updatedUser.Subscription.ConversionLimit - conversionsUsed
+                                       : updatedUser.Subscription.ConversionLimit - conversionsUsed
             };
         }
 
@@ -60,7 +60,7 @@ namespace Service
             {
                 SubscriptionId = subscription.SubscriptionId,
                 SubscriptionName = subscription.SubscriptionName,
-                Subcount = (int)subscription.ConversionLimit
+                Subcount = subscription.ConversionLimit
             }).ToList();
         }
 

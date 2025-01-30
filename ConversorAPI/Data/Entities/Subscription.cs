@@ -17,6 +17,6 @@ namespace Data.Entities
         [Required]
         public string? SubscriptionName { get; set; } // Nombre de la sub (free,trial,pro)
 
-        public decimal ConversionLimit { get; set; } // Limite de conversiones
+        public int ConversionLimit { get; set; } // Limite de conversiones
     }
 }
