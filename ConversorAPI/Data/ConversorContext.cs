@@ -28,7 +28,7 @@ namespace Data
                 .HasForeignKey(u => u.SubscriptionId)
                 .OnDelete(DeleteBehavior.Restrict);
             modelBuilder.Entity<Subscription>().HasData(
-                new Subscription { SubscriptionId = 1, SubscriptionName = "Free", ConversionLimit = 5 },
+                new Subscription { SubscriptionId = 1, SubscriptionName = "Free", ConversionLimit = 10 },
                 new Subscription { SubscriptionId = 2, SubscriptionName = "Trial", ConversionLimit = 100 },
                 new Subscription { SubscriptionId = 3, SubscriptionName = "Pro", ConversionLimit = int.MaxValue }
             );

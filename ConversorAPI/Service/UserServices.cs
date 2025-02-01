@@ -32,7 +32,7 @@ namespace Service
         {
 
 
-            // Crear la entidad de usuario administrador
+          
             var adminUser = new User
             {
                 Username = adminUserDTO.Username,
@@ -44,31 +44,31 @@ namespace Service
                 SubscriptionId = 3
             };
 
-            // Guardar en la base de datos
+            
             _userRepository.AddUser(adminUser);
 
             return adminUser;
         }
 
-        // Crear un nuevo usuario
+        
         public User CreateUser(UserRegistrationDTO registrationDto)
         {
-            // Crear el usuario
+           
             var user = new User
             {
                 Username = registrationDto.Username,
-                Password = registrationDto.Password, // Idealmente, encriptar la contraseña aquí
+                Password = registrationDto.Password, 
                 Email = registrationDto.Email,
                 SubscriptionId = registrationDto.SubscriptionId,
                 conversionEnabled = true,
-                ConversionsMaked = 0 // Inicializa las conversiones realizadas
+                ConversionsMaked = 0 
             };
 
             _userRepository.AddUser(user);
             return user;
         }
 
-        // Obtener usuario por ID
+      
         public User GetById(int userId)
         {
             var user = _userRepository.GetById(userId);
@@ -77,17 +77,16 @@ namespace Service
             return user;
         }
 
-        // Validar credenciales de usuario
         public User ValidateUser(string username, string password)
         {
             var user = _userRepository.GetUserByUsername(username);
-            if (user != null && user.Password == password) // Comparación directa; se recomienda encriptar las contraseñas
+            if (user != null && user.Password == password) 
                 return user;
 
-            return null; // Credenciales no válidas
+            return null;
         }
 
-        // Incrementar conversiones realizadas
+
         public User IncrementConversionsUsed(int userId)
         {
             var user = _userRepository.GetById(userId);
@@ -95,21 +94,21 @@ namespace Service
             if (user == null)
                 throw new ArgumentException("Usuario no encontrado.");
 
-            // Incrementar conversiones realizadas
+      
             user.ConversionsMaked++;
 
-            // Desactivar usuario si excede el límite
+           
             if (user.ConversionsMaked >= user.Subscription.ConversionLimit)
             {
                 user.conversionEnabled = false;
             }
 
-            // Actualizar en el repositorio
+          
             _userRepository.Update(user);
             return user;
         }
 
-        // Obtener el ID de usuario desde el token
+        
         public int GetUserIdFromToken(string token)
         {
             var handler = new JwtSecurityTokenHandler();
@@ -123,10 +122,10 @@ namespace Service
                     return userId;
             }
 
-            return 0; // Retorna 0 si no se pudo obtener el ID
+            return 0; 
         }
 
-        // Actualizar un usuario existente
+       
         public User UpdateUser(User user)
         {
             return _userRepository.Update(user);
@@ -148,7 +147,7 @@ namespace Service
         }
 
 
-        // Verificar si el usuario puede realizar más conversiones
+        
         public bool CanConvert(int userId)
         {
             var user = _userRepository.GetById(userId);
@@ -157,12 +156,12 @@ namespace Service
                 if (user.ConversionsMaked >= user.Subscription.ConversionLimit)
                 {
                     user.conversionEnabled = false; // Desactivar excedió el límite
-                    _userRepository.Update(user); // Actualizar el estado en la base de datos
+                    _userRepository.Update(user); 
                     return false;
                 }
-                return true; // Puede realizar conversiones
+                return true;
             }
-            return false; // Límite alcanzado o no tiene suscripción válida
+            return false;
         }
 
         public void DeactivateUser(int userId, int adminUserId)

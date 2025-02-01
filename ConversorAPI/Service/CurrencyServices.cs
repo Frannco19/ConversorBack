@@ -19,7 +19,7 @@ namespace Service
             _currencyRepository = currencyRepository;
         }
 
-        // Obtener todas las monedas
+     
         public List<CurrencyDTO> GetAllCurrencies()
         {
             var currencies = _currencyRepository.GetGlobalCurrencies()
@@ -35,7 +35,7 @@ namespace Service
             return currencies;
         }
 
-        // Obtener una moneda por ID
+   
         public CurrencyDTO GetCurrencyById(int id)
         {
             var currency = _currencyRepository.GetCurrencyById(id);
@@ -53,7 +53,7 @@ namespace Service
             };
         }
 
-        // Crear una nueva moneda
+  
         public int AddCurrency(CurrencyCreateUpdateDTO currencyDto)
         {
             var currency = new Currency
@@ -67,7 +67,7 @@ namespace Service
             return _currencyRepository.AddCurrency(currency);
         }
 
-        // Actualizar una moneda existente
+     
         public bool UpdateCurrency(int id, CurrencyCreateUpdateDTO currencyDto)
         {
             var existingCurrency = _currencyRepository.GetCurrencyById(id);
@@ -84,25 +84,24 @@ namespace Service
         }
 
 
-        // Eliminar directamente una moneda de la base de datos
+        
         public bool DeleteCurrency(int id)
         {
-            // Intentar obtener la moneda desde el repositorio
+            
             var existingCurrency = _currencyRepository.GetCurrencyById(id);
 
             if (existingCurrency == null)
             {
-                // Retornar false si no existe
+               
                 return false;
             }
 
-            // Eliminar la moneda directamente
             _currencyRepository.RemoveCurrency(existingCurrency);
             return true;
         }
 
 
-        // Convertir una moneda a otra
+      
         public ConversionResultDTO ConvertCurrency(ConversionRequestDTO request)
         {
             var fromCurrency = _currencyRepository.GetCurrencyByCode(request.FromCurrencyCode);

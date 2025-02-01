@@ -17,13 +17,12 @@ namespace Data.Repositories
             _context = context;
         }
 
-        // Obtener suscripción por nombre
         public Subscription GetSubscriptionByName(string name)
         {
             return _context.Subscriptions.FirstOrDefault(s => s.SubscriptionName == name);
         }
 
-        // Obtener un usuario específico por su ID, incluyendo su suscripción
+        
         public User GetUserBySubscriptionId(int subscriptionId)
         {
             return _context.Users.Include(u => u.Subscription)
@@ -31,30 +30,30 @@ namespace Data.Repositories
 
         }
 
-        // Asignar una suscripción a un usuario
+     
         public User AssignSubscriptionToUser(int userId, int subscriptionId)
         {
-            var user = _context.Users.Include(u => u.Subscription).FirstOrDefault(u => u.SubscriptionId == userId);
+            var user = _context.Users.Include(u => u.Subscription).FirstOrDefault(u => u.UserId == userId);
             if (user == null)
                 return null;
 
             user.SubscriptionId = subscriptionId;
+            user.conversionEnabled = true;
             _context.SaveChanges();
 
             return user;
         }
 
-        // Obtener las conversiones restantes para un usuario
         public int GetRemainingConversions(int userId)
         {
-            var user = _context.Users.Include(u => u.Subscription).FirstOrDefault(u => u.SubscriptionId == userId);
+            var user = _context.Users.Include(u => u.Subscription).FirstOrDefault(u => u.UserId == userId);
             if (user == null || user.Subscription == null)
                 return 0;
 
             return user.Subscription.ConversionLimit - user.ConversionsMaked;
         }
 
-        // Obtener todas las suscripciones desde la base de datos
+       
         public List<Subscription> GetAllSubscriptions()
         {
             return _context.Subscriptions.ToList();

@@ -15,8 +15,8 @@ namespace Data.Entities
         public int SubscriptionId { get; set; }
 
         [Required]
-        public string? SubscriptionName { get; set; } // Nombre de la sub (free,trial,pro)
+        public string? SubscriptionName { get; set; } 
 
-        public int ConversionLimit { get; set; } // Limite de conversiones
+        public int ConversionLimit { get; set; } 
     }
 }

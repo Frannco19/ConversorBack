@@ -18,23 +18,21 @@ namespace Service
             _subscriptionRepository = subscriptionRepository;
         }
 
-        // Asignar una suscripción a un usuario
+     
         public UserSubStatusDTO MakeSubscriptionToUser(UserSubscriptionDTO userSubscriptionDto)
         {
-            // Asignar la suscripción al usuario
-            var updatedUser = _subscriptionRepository.AssignSubscriptionToUser(
-                userSubscriptionDto.UserId,
-                userSubscriptionDto.SubscriptionId
-            );
+          
+            var updatedUser = _subscriptionRepository.AssignSubscriptionToUser(userSubscriptionDto.UserId,userSubscriptionDto.SubscriptionId);
 
             if (updatedUser == null)
             {
-                // Retornar null si no se encontró el usuario o la suscripción
+               
                 return null;
             }
 
-            // Calcular conversiones restantes
-            int conversionsUsed = updatedUser.ConversionsMaked;
+            
+            int conversionsUsed = _subscriptionRepository.GetRemainingConversions(updatedUser.UserId);
+
 
             return new UserSubStatusDTO
             {
@@ -49,13 +47,13 @@ namespace Service
             };
         }
 
-        // Listar todas las suscripciones
+        
         public List<SubscriptionDTO> GetAllSubscriptions()
         {
-            // Obtener todas las suscripciones desde el repositorio
+           
             var subscriptions = _subscriptionRepository.GetAllSubscriptions();
 
-            // Mapear a DTOs
+           
             return subscriptions.Select(subscription => new SubscriptionDTO
             {
                 SubscriptionId = subscription.SubscriptionId,
@@ -64,7 +62,7 @@ namespace Service
             }).ToList();
         }
 
-        // Obtener una suscripción por ID
+    
         public SubscriptionDTO GetSubscriptionById(int subscriptionId)
         {
             var subscription = _subscriptionRepository.GetSubscriptionById(subscriptionId);

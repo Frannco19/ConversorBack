@@ -7,7 +7,7 @@
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstMigration : Migration
+    public partial class PrincipalMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -72,7 +72,7 @@ namespace Data.Migrations
                 columns: new[] { "SubscriptionId", "ConversionLimit", "SubscriptionName" },
                 values: new object[,]
                 {
-                    { 1, 5, "Free" },
+                    { 1, 10, "Free" },
                     { 2, 100, "Trial" },
                     { 3, 2147483647, "Pro" }
                 });

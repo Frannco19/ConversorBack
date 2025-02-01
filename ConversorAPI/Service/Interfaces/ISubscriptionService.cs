@@ -10,7 +10,7 @@ namespace Service.Interfaces
     public interface ISubscriptionService
     {
         UserSubStatusDTO MakeSubscriptionToUser(UserSubscriptionDTO userSubscriptionDto);
-        List<SubscriptionDTO> GetAllSubscriptions(); // Firma del método para obtener todas las suscripciones
+        List<SubscriptionDTO> GetAllSubscriptions(); 
         SubscriptionDTO GetSubscriptionById(int subscriptionId);
     }
 }

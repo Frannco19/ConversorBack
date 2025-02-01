@@ -56,7 +56,7 @@ namespace ConversorAPI.Controllers
             return Ok(new { token = tokenToReturn });
         }
 
-        // Registro de usuarios
+     
         [AllowAnonymous]
         [HttpPost("register")]
         public IActionResult Register([FromBody] UserRegistrationDTO registrationDto)
@@ -72,7 +72,7 @@ namespace ConversorAPI.Controllers
             }
         }
 
-        // Obtener detalles del usuario autenticado
+      
         [Authorize]
         [HttpGet("user/details")]
         public IActionResult GetUserDetails()

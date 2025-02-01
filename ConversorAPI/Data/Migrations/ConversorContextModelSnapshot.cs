@@ -63,7 +63,7 @@ namespace Data.Migrations
                         new
                         {
                             SubscriptionId = 1,
-                            ConversionLimit = 5,
+                            ConversionLimit = 10,
                             SubscriptionName = "Free"
                         },
                         new

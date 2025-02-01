@@ -16,18 +16,17 @@ namespace Data.Repositories
             _context = context;
         }
 
-        // Obtener todas las monedas sin basarse en un estado.
         public IEnumerable<Currency> GetGlobalCurrencies()
         {
             return _context.CurrenciesConvert.ToList();
         }
 
-        // Obtener moneda por ID, validando existencia.
+   
         public Currency GetCurrencyById(int id)
         {
             var currency = _context.CurrenciesConvert.Find(id);
             if (currency == null)
-                throw new KeyNotFoundException($"La moneda con ID {id} no existe.");
+                return null;
 
             return currency;
         }
@@ -48,7 +47,7 @@ namespace Data.Repositories
 
         }
 
-        // Eliminar moneda por ID, validando existencia.
+      
         public bool DeleteCurrency(int id)
         {
             var currency = _context.CurrenciesConvert.Find(id);

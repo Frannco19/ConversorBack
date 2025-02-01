@@ -15,7 +15,7 @@ namespace ConversorAPI.Controllers
             _subscriptionService = subscriptionService;
         }
 
-        // Asignar una suscripción a un usuario
+    
         [HttpPost("assign")]
         public IActionResult AssignSubscriptionToUser([FromBody] UserSubscriptionDTO userSubscriptionDto)
         {
@@ -33,7 +33,7 @@ namespace ConversorAPI.Controllers
             });
         }
 
-        // Obtener detalles de una suscripción específica
+     
         [HttpGet("{subscriptionId}")]
         public IActionResult GetSubscriptionDetails(int subscriptionId)
         {
@@ -51,7 +51,7 @@ namespace ConversorAPI.Controllers
             return Ok(subscription);
         }
 
-        // Listar todas las suscripciones disponibles
+      
         [HttpGet("list")]
         public IActionResult GetAllSubscriptions()
         {

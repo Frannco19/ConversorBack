@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ConversorContext))]
-    [Migration("20250129231000_FirstMigration")]
-    partial class FirstMigration
+    [Migration("20250131235731_PrincipalMigration")]
+    partial class PrincipalMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,7 +66,7 @@ namespace Data.Migrations
                         new
                         {
                             SubscriptionId = 1,
-                            ConversionLimit = 5,
+                            ConversionLimit = 10,
                             SubscriptionName = "Free"
                         },
                         new

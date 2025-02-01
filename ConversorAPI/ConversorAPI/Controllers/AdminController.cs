@@ -22,13 +22,13 @@ namespace ConversorAPI.Controllers
         [HttpPost("create-admin")]
         public IActionResult CreateAdmin([FromBody] AdminUserDTO adminUserDTO)
         {
-            // Extraer el token del encabezado
+           
             var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-            // Obtener el userIdSUB y username
+            
             var admin = _userService.GetUserIdFromToken(token);
 
-            // Validar si el usuario que realiza la solicitud es administrador
+            
             if (!_userService.IsAdmin(admin))
             {
                 return Unauthorized("No tienes permisos para crear un administrador.");
@@ -60,7 +60,7 @@ namespace ConversorAPI.Controllers
         {
             var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
-            // Obtener el userIdSUB y username
+          
             var admin = _userService.GetUserIdFromToken(token);
 
             if (!_userService.IsAdmin(admin))
