@@ -7,7 +7,7 @@
 namespace Data.Migrations
 {
     /// <inheritdoc />
-    public partial class PrincipalMigration : Migration
+    public partial class InicialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -52,7 +52,7 @@ namespace Data.Migrations
                     Password = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
                     ConversionsMaked = table.Column<int>(type: "INTEGER", nullable: false),
-                    SubscriptionId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SubscriptionId = table.Column<int>(type: "INTEGER", nullable: false, defaultValue: 1),
                     IsAdmin = table.Column<bool>(type: "INTEGER", nullable: false),
                     conversionEnabled = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
@@ -72,9 +72,10 @@ namespace Data.Migrations
                 columns: new[] { "SubscriptionId", "ConversionLimit", "SubscriptionName" },
                 values: new object[,]
                 {
-                    { 1, 10, "Free" },
-                    { 2, 100, "Trial" },
-                    { 3, 2147483647, "Pro" }
+                    { 1, 0, "No Subscription" },
+                    { 2, 10, "Free" },
+                    { 3, 100, "Trial" },
+                    { 4, 2147483647, "Pro" }
                 });
 
             migrationBuilder.CreateIndex(

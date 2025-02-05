@@ -1,4 +1,5 @@
-﻿using Data.Models.ENUMs;
+﻿using Data.Entities;
+using Data.Models.ENUMs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Data.Models.DTOs.UserDTOs
         public int UserId { get; set; }
         public string Username { get; set; }
         public string Email { get; set; }
-        public SubscriptionType SubscriptionType { get; set; }
+        public Subscription Subscription { get; set; }
         public int MaxConversionsAllowed { get; set; }
         public int ConversionsMaked { get; set; }
     }

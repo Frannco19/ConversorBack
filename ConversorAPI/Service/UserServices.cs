@@ -59,8 +59,8 @@ namespace Service
                 Username = registrationDto.Username,
                 Password = registrationDto.Password, 
                 Email = registrationDto.Email,
-                SubscriptionId = registrationDto.SubscriptionId,
-                conversionEnabled = true,
+                SubscriptionId = 1,
+                conversionEnabled = false,
                 ConversionsMaked = 0 
             };
 

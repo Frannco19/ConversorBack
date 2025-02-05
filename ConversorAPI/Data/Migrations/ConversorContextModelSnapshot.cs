@@ -63,18 +63,24 @@ namespace Data.Migrations
                         new
                         {
                             SubscriptionId = 1,
+                            ConversionLimit = 0,
+                            SubscriptionName = "No Subscription"
+                        },
+                        new
+                        {
+                            SubscriptionId = 2,
                             ConversionLimit = 10,
                             SubscriptionName = "Free"
                         },
                         new
                         {
-                            SubscriptionId = 2,
+                            SubscriptionId = 3,
                             ConversionLimit = 100,
                             SubscriptionName = "Trial"
                         },
                         new
                         {
-                            SubscriptionId = 3,
+                            SubscriptionId = 4,
                             ConversionLimit = 2147483647,
                             SubscriptionName = "Pro"
                         });
@@ -101,7 +107,9 @@ namespace Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SubscriptionId")
-                        .HasColumnType("INTEGER");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasDefaultValue(1);
 
                     b.Property<string>("Username")
                         .IsRequired()

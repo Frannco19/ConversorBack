@@ -27,10 +27,18 @@ namespace Data
                 .WithMany()
                 .HasForeignKey(u => u.SubscriptionId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // Definir valores por defecto para la suscripción
+            modelBuilder.Entity<User>()
+                .Property(u => u.SubscriptionId)
+                .HasDefaultValue(1); // No Subscription
+
+
             modelBuilder.Entity<Subscription>().HasData(
-                new Subscription { SubscriptionId = 1, SubscriptionName = "Free", ConversionLimit = 10 },
-                new Subscription { SubscriptionId = 2, SubscriptionName = "Trial", ConversionLimit = 100 },
-                new Subscription { SubscriptionId = 3, SubscriptionName = "Pro", ConversionLimit = int.MaxValue }
+                new Subscription { SubscriptionId = 1, SubscriptionName = "No Subscription", ConversionLimit = 0 },
+                new Subscription { SubscriptionId = 2, SubscriptionName = "Free", ConversionLimit = 10 },
+                new Subscription { SubscriptionId = 3, SubscriptionName = "Trial", ConversionLimit = 100 },
+                new Subscription { SubscriptionId = 4, SubscriptionName = "Pro", ConversionLimit = int.MaxValue }
             );
         }
     }
