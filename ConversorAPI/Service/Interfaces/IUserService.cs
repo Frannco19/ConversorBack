@@ -29,5 +29,9 @@ namespace Service.Interfaces
         User CreateAdminUser(AdminUserDTO adminUserDTO);
 
         void DeactivateUser(int userId, int adminUserId);
+
+        List<User> GetAllAdmins();
+
+        List<User> GetUsers();
     }
 }

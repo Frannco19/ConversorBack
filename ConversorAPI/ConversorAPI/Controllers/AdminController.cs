@@ -19,41 +19,41 @@ namespace ConversorAPI.Controllers
             _userService = userService;
 
         }
+
         [HttpPost("create-admin")]
+        [AllowAnonymous] // Permitir crear el primer admin sin token
         public IActionResult CreateAdmin([FromBody] AdminUserDTO adminUserDTO)
         {
-           
-            var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
-
-            
-            var admin = _userService.GetUserIdFromToken(token);
-
-            
-            if (!_userService.IsAdmin(admin))
+            // Verificar si ya existe un admin
+            var existingAdmins = _userService.GetAllAdmins();
+            if (existingAdmins.Any())
             {
-                return Unauthorized("No tienes permisos para crear un administrador.");
+                var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var admin = _userService.GetUserIdFromToken(token);
+
+                if (!_userService.IsAdmin(admin))
+                {
+                    return Unauthorized("No tienes permisos para crear un administrador.");
+                }
             }
 
             try
             {
-                // Crear el usuario administrador
                 var adminUser = _userService.CreateAdminUser(adminUserDTO);
-
-                return CreatedAtAction(
-                    nameof(Created), // Método que devuelve un administrador por su ID
-                    new { id = adminUser.UserId }, // Ruta del recurso recién creado
-                    new
-                    {
-                        adminUser.UserId,
-                        adminUser.Username,
-                        adminUser.Email
-                    });
+                return Ok(new
+                {
+                    adminUser.UserId,
+                    adminUser.Username,
+                    adminUser.Email
+                });
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
+
+
 
         [HttpDelete("deactivate/{userId}")]
         public IActionResult DeactivateUser(int userId)
@@ -141,6 +141,43 @@ namespace ConversorAPI.Controllers
 
             return Ok(admin);
         }
+
+        [Authorize]
+        [HttpGet("users")]
+        public IActionResult GetAllUsers()
+        {
+            try
+            {
+                var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+                var adminId = _userService.GetUserIdFromToken(token);
+
+                if (!_userService.IsAdmin(adminId))
+                {
+                    return Unauthorized("No tienes permisos para ver la lista de usuarios.");
+                }
+
+                var users = _userService.GetUsers();
+
+                // ✅ Mapeo de User a UserAdminDTO para el frontend
+                var userAdmins = users.Select(u => new
+                {
+                    Id = u.UserId,
+                    Username = u.Username,
+                    Email = u.Email,
+                    SubscriptionId = u.SubscriptionId,
+                    IsActive = u.conversionEnabled // O el campo que indique si está activo
+                }).ToList();
+
+                return Ok(userAdmins);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Error en el servidor: {ex.Message}");
+            }
+        }
+
+
+
 
 
     }

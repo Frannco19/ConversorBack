@@ -45,5 +45,10 @@ namespace Data.Repositories
         {
             return _context.Users.FirstOrDefault(u => u.Username == username);
         }
+
+        public List<User> GetAllAdmins()
+        {
+            return _context.Users.Where(u => u.IsAdmin).ToList();
+        }
     }
 }

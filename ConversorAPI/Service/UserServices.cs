@@ -2,6 +2,7 @@
 using Data.Models.DTOs.UserDTOs;
 using Data.Models.ENUMs;
 using Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Service.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -176,6 +177,16 @@ namespace Service
 
             user.conversionEnabled = false;
             _userRepository.Update(user);
+        }
+
+        public List<User> GetAllAdmins()
+        {
+            return _userRepository.GetAllAdmins().Where(u => u.IsAdmin).ToList();
+        }
+
+        public List<User> GetUsers()
+        {
+            return _userRepository.GetUsers();
         }
     }
 
