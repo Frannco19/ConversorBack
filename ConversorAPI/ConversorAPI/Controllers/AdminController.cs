@@ -175,10 +175,5 @@ namespace ConversorAPI.Controllers
                 return StatusCode(500, $"Error en el servidor: {ex.Message}");
             }
         }
-
-
-
-
-
     }
 }
