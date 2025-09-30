@@ -23,7 +23,7 @@ builder.Services.AddSwaggerGen(setupAction =>
     {
         Type = SecuritySchemeType.Http,
         Scheme = "Bearer",
-        Description = "Acá pegar el token generado al loguearse."
+        Description = "Acï¿½ pegar el token generado al loguearse."
     });
 
     setupAction.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -34,7 +34,7 @@ builder.Services.AddSwaggerGen(setupAction =>
                 Reference = new OpenApiReference
                 {
                     Type = ReferenceType.SecurityScheme,
-                    Id = "ConversorBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definición
+                    Id = "ConversorBearerAuth" } //Tiene que coincidir con el id seteado arriba en la definiciï¿½n
                 }, new List<string>() }
     });
 });
@@ -71,7 +71,7 @@ builder.Services.AddCors(options =>
 
 
 
-// Inyección de dependencias
+// Inyecciï¿½n de dependencias
 builder.Services.AddScoped<ICurrencyServices, CurrencyService>();
 builder.Services.AddScoped<ISubscriptionService, SubscriptionService>();
 builder.Services.AddScoped<IUserService, UserServices>();
@@ -94,6 +94,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 
 app.UseAuthentication();
 
