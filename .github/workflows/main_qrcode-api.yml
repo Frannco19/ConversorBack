@@ -24,14 +24,14 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Restore dependencies
-        run: dotnet restore ConversorAPI.sln
+        run: dotnet restore ./ConversorAPI/ConversorAPI.sln
 
       - name: Build application
-        run: dotnet build ConversorAPI/ConversorAPI.sln --configuration Release --no-restore
+        run: dotnet build ./ConversorAPI/ConversorAPI.sln --configuration Release --no-restore
 
 
       - name: dotnet publish
-        run: dotnet publish ConversorAPI/ConversorAPI.csproj -c Release -o ./myapp"
+        run: dotnet publish ./ConversorAPI/ConversorAPI/ConversorAPI.csproj -c Release -o ./myapp"
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
